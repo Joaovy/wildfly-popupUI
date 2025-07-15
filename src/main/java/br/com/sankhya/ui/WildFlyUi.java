@@ -11,17 +11,17 @@ public class WildFlyUi {
     public WildFlyUi() {
         frame = new JFrame("Configuração do Wildfly");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(520, 360); // Ligeiramente aumentado
+        frame.setSize(490, 360); // Aumentando o tamanho da janela
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 30));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        addTexts();
-        addPathField();
-        addButtons();
+        addTexts(); // Adiciona os textos
+        addPathField(); // Campo de texto + botão "Procurar..."
+        addButtons();  // Botões "Cancelar" e "Salvar"
 
         frame.setContentPane(mainPanel);
         frame.setVisible(true);
@@ -29,13 +29,14 @@ public class WildFlyUi {
 
     private void addTexts() {
         JLabel label1 = new JLabel("Não encontramos um Wildfly configurado!");
-        JLabel label2 = new JLabel("<html><div style='width:460px;'>"
+        JLabel label2 = new JLabel("<html><div style='width:320px;'>"
                 + "Este caminho é configurado via Sanklipse, mas aqui também nós conseguimos salvar "
                 + "essa configuração para ser utilizada nos próximos builds de todos os projetos."
                 + "</div></html>");
-        JLabel label3 = new JLabel("<html><div style='width:460px;'>"
+        JLabel label3 = new JLabel("<html><div style='width:320px;'>"
                 + "Por favor, informe o caminho do seu Wildfly que iremos salvar a configuração:"
                 + "</div></html>");
+
 
         label1.setAlignmentX(Component.LEFT_ALIGNMENT);
         label2.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -45,22 +46,27 @@ public class WildFlyUi {
         label3.setMaximumSize(new Dimension(460, Integer.MAX_VALUE));
 
         mainPanel.add(label1);
-        mainPanel.add(Box.createVerticalStrut(2));
+        mainPanel.add(Box.createVerticalStrut(2)); // Espaço entre label1 e label2
         mainPanel.add(label2);
-        mainPanel.add(Box.createVerticalStrut(2));
+        mainPanel.add(Box.createVerticalStrut(0)); // Espaço entre label2 e label3
         mainPanel.add(label3);
-        mainPanel.add(Box.createVerticalStrut(5)); 
+        mainPanel.add(Box.createVerticalStrut(5)); // Espaço após o texto até o campo
     }
 
     private void addPathField() {
         JPanel pathPanel = new JPanel(new BorderLayout());
-        pathPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        pathPanel.setMaximumSize(new Dimension(460, 30));
+        pathPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Novo painel para controlar a largura visível do JTextField
-        JPanel textFieldWrapper = new JPanel(new BorderLayout());
-        textFieldWrapper.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 10)); // margem interna
         JTextField pathField = new JTextField();
-        textFieldWrapper.add(pathField, BorderLayout.CENTER);
+
+        pathField.setPreferredSize(new Dimension(300, 30));
+
+        pathField.setMaximumSize(new Dimension(300, 30));
+
+        JPanel textFieldWrapper = new JPanel(new BorderLayout());
+        textFieldWrapper.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+        textFieldWrapper.add(pathField, BorderLayout.CENTER); //Campo vai ocupar o centro do painel interno
 
         JButton browseButton = createRoundedButton("Procurar...");
         browseButton.setPreferredSize(new Dimension(100, 30));
@@ -72,12 +78,12 @@ public class WildFlyUi {
         mainPanel.add(Box.createVerticalStrut(25));
     }
 
-
+    
     private void addButtons() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 2, 0));
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 13, 9));
         buttonPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        buttonPanel.setAlignmentX(Component.TOP_ALIGNMENT);
 
         JButton cancelButton = createRoundedButton("Cancelar");
         JButton saveButton = createRoundedButton("Salvar");
@@ -90,6 +96,8 @@ public class WildFlyUi {
 
         mainPanel.add(buttonPanel);
     }
+
+
 
     private JButton createRoundedButton(String text) {
         JButton button = new JButton(text);
