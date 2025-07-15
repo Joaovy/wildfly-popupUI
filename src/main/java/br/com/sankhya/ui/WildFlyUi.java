@@ -17,7 +17,7 @@ public class WildFlyUi {
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 30));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         addTexts(); // Adiciona os textos
         addPathField(); // Campo de texto + botão "Procurar..."
@@ -55,30 +55,43 @@ public class WildFlyUi {
 
     private void addPathField() {
         JPanel pathPanel = new JPanel(new BorderLayout());
-        pathPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        pathPanel.setMaximumSize(new Dimension(460, 30));
+        pathPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Novo painel para controlar a largura visível do JTextField
-        JPanel textFieldWrapper = new JPanel(new BorderLayout());
-        textFieldWrapper.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 10)); // margem interna
+        // Campo de texto para o caminho do Wildfly
         JTextField pathField = new JTextField();
-        textFieldWrapper.add(pathField, BorderLayout.CENTER);
 
+        // Define o tamanho preferido para exibição (largura x altura)
+        pathField.setPreferredSize(new Dimension(300, 30));
+
+        // Define o tamanho máximo para impedir que ele ultrapasse os limites do painel
+        pathField.setMaximumSize(new Dimension(300, 30));
+
+        // Painel interno apenas para aplicar margem ao redor do JTextField
+        JPanel textFieldWrapper = new JPanel(new BorderLayout());
+        textFieldWrapper.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+        textFieldWrapper.add(pathField, BorderLayout.CENTER); //Campo vai ocupar o centro do painel interno
+
+        // Botão de "Procurar"
         JButton browseButton = createRoundedButton("Procurar...");
         browseButton.setPreferredSize(new Dimension(100, 30));
 
+        // Junta os dois componentes: campo no centro, botão à direita
         pathPanel.add(textFieldWrapper, BorderLayout.CENTER);
         pathPanel.add(browseButton, BorderLayout.EAST);
 
+        // Adiciona ao painel principal
         mainPanel.add(pathPanel);
         mainPanel.add(Box.createVerticalStrut(25));
     }
 
 
+
     private void addButtons() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 2, 0));
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 13, 9)); // espaçamento horizontal dos botões
         buttonPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        buttonPanel.setAlignmentX(Component.TOP_ALIGNMENT); // Alinha os botões ao topo do painel
 
         JButton cancelButton = createRoundedButton("Cancelar");
         JButton saveButton = createRoundedButton("Salvar");
@@ -91,6 +104,8 @@ public class WildFlyUi {
 
         mainPanel.add(buttonPanel);
     }
+
+
 
     private JButton createRoundedButton(String text) {
         JButton button = new JButton(text);
