@@ -19,9 +19,9 @@ public class WildFlyUi {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 30));
 
-        addTexts(); // Adiciona os textos
-        addPathField(); // Campo de texto + botão "Procurar..."
-        addButtons();  // Botões "Cancelar" e "Salvar"
+        addTexts();
+        addPathField();
+        addButtons();
 
         frame.setContentPane(mainPanel);
         frame.setVisible(true);
@@ -45,11 +45,11 @@ public class WildFlyUi {
         label3.setMaximumSize(new Dimension(460, Integer.MAX_VALUE));
 
         mainPanel.add(label1);
-        mainPanel.add(Box.createVerticalStrut(2)); // Espaço entre label1 e label2
+        mainPanel.add(Box.createVerticalStrut(2));
         mainPanel.add(label2);
-        mainPanel.add(Box.createVerticalStrut(2)); // Espaço entre label2 e label3
+        mainPanel.add(Box.createVerticalStrut(2));
         mainPanel.add(label3);
-        mainPanel.add(Box.createVerticalStrut(5)); // Espaço após o texto até o campo
+        mainPanel.add(Box.createVerticalStrut(5)); 
     }
 
     private void addPathField() {
@@ -95,7 +95,7 @@ public class WildFlyUi {
         JButton button = new JButton(text);
         button.setFocusPainted(false);
         button.setBackground(new Color(240, 240, 240));
-        button.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true)); // arredondamento
+        button.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
         return button;
     }
 
