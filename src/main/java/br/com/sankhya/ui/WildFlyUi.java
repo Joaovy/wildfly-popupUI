@@ -58,40 +58,32 @@ public class WildFlyUi {
         pathPanel.setMaximumSize(new Dimension(460, 30));
         pathPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Campo de texto para o caminho do Wildfly
         JTextField pathField = new JTextField();
 
-        // Define o tamanho preferido para exibição (largura x altura)
         pathField.setPreferredSize(new Dimension(300, 30));
 
-        // Define o tamanho máximo para impedir que ele ultrapasse os limites do painel
         pathField.setMaximumSize(new Dimension(300, 30));
 
-        // Painel interno apenas para aplicar margem ao redor do JTextField
         JPanel textFieldWrapper = new JPanel(new BorderLayout());
         textFieldWrapper.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         textFieldWrapper.add(pathField, BorderLayout.CENTER); //Campo vai ocupar o centro do painel interno
 
-        // Botão de "Procurar"
         JButton browseButton = createRoundedButton("Procurar...");
         browseButton.setPreferredSize(new Dimension(100, 30));
 
-        // Junta os dois componentes: campo no centro, botão à direita
         pathPanel.add(textFieldWrapper, BorderLayout.CENTER);
         pathPanel.add(browseButton, BorderLayout.EAST);
 
-        // Adiciona ao painel principal
         mainPanel.add(pathPanel);
         mainPanel.add(Box.createVerticalStrut(25));
     }
 
-
-
+    
     private void addButtons() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 13, 9)); // espaçamento horizontal dos botões
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 13, 9));
         buttonPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-        buttonPanel.setAlignmentX(Component.TOP_ALIGNMENT); // Alinha os botões ao topo do painel
+        buttonPanel.setAlignmentX(Component.TOP_ALIGNMENT);
 
         JButton cancelButton = createRoundedButton("Cancelar");
         JButton saveButton = createRoundedButton("Salvar");
@@ -111,7 +103,7 @@ public class WildFlyUi {
         JButton button = new JButton(text);
         button.setFocusPainted(false);
         button.setBackground(new Color(240, 240, 240));
-        button.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true)); // arredondamento
+        button.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
         return button;
     }
 
