@@ -11,7 +11,7 @@ public class WildFlyUi {
     public WildFlyUi() {
         frame = new JFrame("Configuração do Wildfly");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(520, 360); // Ligeiramente aumentado
+        frame.setSize(490, 360); // Aumentando o tamanho da janela
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
@@ -29,13 +29,14 @@ public class WildFlyUi {
 
     private void addTexts() {
         JLabel label1 = new JLabel("Não encontramos um Wildfly configurado!");
-        JLabel label2 = new JLabel("<html><div style='width:460px;'>"
+        JLabel label2 = new JLabel("<html><div style='width:320px;'>"
                 + "Este caminho é configurado via Sanklipse, mas aqui também nós conseguimos salvar "
                 + "essa configuração para ser utilizada nos próximos builds de todos os projetos."
                 + "</div></html>");
-        JLabel label3 = new JLabel("<html><div style='width:460px;'>"
+        JLabel label3 = new JLabel("<html><div style='width:320px;'>"
                 + "Por favor, informe o caminho do seu Wildfly que iremos salvar a configuração:"
                 + "</div></html>");
+
 
         label1.setAlignmentX(Component.LEFT_ALIGNMENT);
         label2.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -47,7 +48,7 @@ public class WildFlyUi {
         mainPanel.add(label1);
         mainPanel.add(Box.createVerticalStrut(2)); // Espaço entre label1 e label2
         mainPanel.add(label2);
-        mainPanel.add(Box.createVerticalStrut(2)); // Espaço entre label2 e label3
+        mainPanel.add(Box.createVerticalStrut(0)); // Espaço entre label2 e label3
         mainPanel.add(label3);
         mainPanel.add(Box.createVerticalStrut(5)); // Espaço após o texto até o campo
     }
