@@ -119,6 +119,9 @@ public class WildflyUiConfigurator {
         buttonPanel.add(saveButton);
 
         mainPanel.add(buttonPanel);
+
+        addHoverEffect(cancelButton, new Color(239, 181, 181)); // Vermelho
+        addHoverEffect(saveButton, new Color(189, 230, 189));   // Verde
     }
 
 
@@ -130,6 +133,24 @@ public class WildflyUiConfigurator {
         button.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
         return button;
     }
+
+    // efeito simples visual de hover nos botões
+    private void addHoverEffect(JButton button, Color hoverColor) {
+        Color originalColor = button.getBackground();
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(hoverColor);
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(originalColor);
+            }
+        });
+    }
+
 
 
 }
