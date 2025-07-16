@@ -7,6 +7,10 @@ public class WildflyUiConfigurator {
 
     private JFrame frame;
     private JPanel mainPanel;
+    private JTextField pathField;
+    private JButton browseButton;
+    private JButton cancelButton;
+    private JButton saveButton;
 
     public WildflyUiConfigurator() {
     }
@@ -69,6 +73,7 @@ public class WildflyUiConfigurator {
     }
 
     private void addPathField() {
+        pathField = new JTextField();
         JPanel pathPanel = new JPanel(new BorderLayout());
         pathPanel.setMaximumSize(new Dimension(460, 30));
         pathPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -95,6 +100,10 @@ public class WildflyUiConfigurator {
 
 
     private void addButtons() {
+
+        cancelButton = createRoundedButton("Cancelar");
+        saveButton = createRoundedButton("Salvar");
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 13, 9));
         buttonPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
