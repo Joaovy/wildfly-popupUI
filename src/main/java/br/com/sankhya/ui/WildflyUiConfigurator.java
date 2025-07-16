@@ -3,12 +3,27 @@ package br.com.sankhya.ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class WildFlyUi {
+public class WildflyUiConfigurator {
 
-    private final JFrame frame;
-    private final JPanel mainPanel;
+    private JFrame frame;
+    private JPanel mainPanel;
 
-    public WildFlyUi() {
+    public WildflyUiConfigurator() {
+    }
+
+    public static void open(){
+        if(GraphicsEnvironment.isHeadless()){ // Verifica se o ambiente é headless
+            System.out.println("A interface gráfica não pode ser exibida em um ambiente headless.");
+            return;
+        }
+
+        // padrão sigleton controlado por metodo estático
+        WildflyUiConfigurator configurator = new WildflyUiConfigurator(); // Cria uma instancia da classe
+        configurator.initialize();
+    }
+
+    private void initialize(){
+
         frame = new JFrame("Configuração do Wildfly");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(490, 360); // Aumentando o tamanho da janela
@@ -78,7 +93,7 @@ public class WildFlyUi {
         mainPanel.add(Box.createVerticalStrut(25));
     }
 
-    
+
     private void addButtons() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 13, 9));
@@ -106,5 +121,6 @@ public class WildFlyUi {
         button.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
         return button;
     }
+
 
 }
