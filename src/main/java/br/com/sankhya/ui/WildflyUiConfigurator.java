@@ -2,6 +2,7 @@ package br.com.sankhya.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class WildflyUiConfigurator {
 
@@ -13,6 +14,12 @@ public class WildflyUiConfigurator {
     private JButton saveButton;
 
     public WildflyUiConfigurator() {
+    }
+
+    private void configureActions(){
+
+        // adicionar os listeners dos botões
+
     }
 
     public static void open(){
@@ -44,7 +51,27 @@ public class WildflyUiConfigurator {
 
         frame.setContentPane(mainPanel);
         frame.setVisible(true);
+
+        configureActions(); // Configura as ações dos botões
     }
+
+    /*private void actionSearchPath(ActiveEvent event){
+
+        JFileChooser selector = new JFileChooser();
+        selector.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        selector.setDialogTitle("Escolha um diretório do Wildfly");
+
+        int result = selector.showOpenDialog(frame);
+
+        if( result == JFileChooser.APPROVE_OPTION){
+            File wildflyDir = selector.getSelectedFile();
+
+            if(validateWildflyPath(wildflyDir))
+
+        }
+
+
+    }*/
 
     private void addTexts() {
         JLabel label1 = new JLabel("Não encontramos um Wildfly configurado!");
@@ -98,7 +125,6 @@ public class WildflyUiConfigurator {
         mainPanel.add(Box.createVerticalStrut(25));
     }
 
-
     private void addButtons() {
 
         cancelButton = createRoundedButton("Cancelar");
@@ -123,8 +149,6 @@ public class WildflyUiConfigurator {
         addHoverEffect(cancelButton, new Color(239, 181, 181)); // Vermelho
         addHoverEffect(saveButton, new Color(189, 230, 189));   // Verde
     }
-
-
 
     private JButton createRoundedButton(String text) {
         JButton button = new JButton(text);
@@ -151,6 +175,19 @@ public class WildflyUiConfigurator {
         });
     }
 
+
+    private boolean validateWildflyPath(File wildflyDir){
+
+        if(!wildflyDir.isDirectory()) return false;
+
+        File binDir = new File(wildflyDir, "bin");
+        File standaloneBat = new File(wildflyDir, "standalone.bat");
+        File satndaloneSh = new File(wildflyDir, "standalone.sh");
+
+        return binDir.isDirectory() && (standaloneBat.exists() || satndaloneSh.exists());
+        // requisção simples que testa o wildflyDir se é um diretório e se contém o diretório bin
+
+    }
 
 
 }
