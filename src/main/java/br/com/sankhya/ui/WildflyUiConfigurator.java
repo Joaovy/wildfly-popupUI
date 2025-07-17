@@ -199,7 +199,7 @@ public class WildflyUiConfigurator {
 
         if(confirm == JOptionPane.YES_OPTION){
             pathField.setText(""); // Limpa o campo de texto
-            frame.dispose(); // Fecha a janela
+            //frame.dispose(); // Fecha a janela
 
         }
 
