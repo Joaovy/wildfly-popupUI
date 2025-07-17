@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.awt.event.ActionEvent;
+import java.util.Map;
 
 
 public class WildflyUiConfigurator {
@@ -58,29 +59,8 @@ public class WildflyUiConfigurator {
         configureActions(); // Configura as ações dos botões
     }
 
-    private void actionSearchPath(ActionEvent event) {
-
-        JFileChooser selector = new JFileChooser();
-        selector.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        selector.setDialogTitle("Escolha um diretório do Wildfly");
-
-        int result = selector.showOpenDialog(frame);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File wildflyDir = selector.getSelectedFile();
-
-            if (validateWildflyPath(wildflyDir)) {
-                pathField.setText(wildflyDir.getAbsolutePath()); // jtextField
-                JOptionPane.showMessageDialog(frame, "Caminho selecionado: " + wildflyDir.getAbsolutePath(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(frame, "O caminho selecionado não é um Wildfly válido.", "Erro", JOptionPane.ERROR_MESSAGE);
-
-            }
-
-        }
-
-    }
-
+        // estilização da Janela WildFly configurator
+        // Java Swing - toda parte de estilização é feita aqui
         private void addTexts () {
             JLabel label1 = new JLabel("Não encontramos um Wildfly configurado!");
             JLabel label2 = new JLabel("<html><div style='width:320px;'>"
@@ -163,7 +143,6 @@ public class WildflyUiConfigurator {
             return button;
         }
 
-        // efeito simples visual de hover nos botões
         private void addHoverEffect (JButton button, Color hoverColor){
             Color originalColor = button.getBackground();
 
@@ -180,20 +159,72 @@ public class WildflyUiConfigurator {
             });
         }
 
+        private void configurarFileChooserUI () {
+                try {
+                    // Aplica o tema visual do sistema operacional (Look and Feel)
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
+                    // Personaliza os textos do JFileChooser
+                    Map<String, String> fileChooserTexts = Map.of(
+                            "FileChooser.openDialogTitleText", "Selecionar diretório do WildFly",
+                            "FileChooser.openButtonText", "Selecionar",
+                            "FileChooser.cancelButtonText", "Cancelar",
+                            "FileChooser.lookInLabelText", "Procurar em:"
+                    );
+
+                    for (Map.Entry<String, String> entry : fileChooserTexts.entrySet()) {
+                        UIManager.put(entry.getKey(), entry.getValue());
+                    }
+
+                } catch (Exception ex) {
+                    System.out.println("Não foi possivel aplicar o tema visual:");
+                    ex.printStackTrace();
+                }
+
+
+            }
+
+
+        // Ação do botão "Procurar..."
+        private void actionSearchPath (ActionEvent event){
+
+                configurarFileChooserUI(); // Configura o JFileChooser com o tema visual
+
+                JFileChooser selector = new JFileChooser(new File(System.getProperty("user.home")));
+                selector.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                selector.setDialogTitle("Escolha um diretório do Wildfly");
+
+                int result = selector.showOpenDialog(frame);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File wildflyDir = selector.getSelectedFile();
+
+                    if (validateWildflyPath(wildflyDir)) {
+                        pathField.setText(wildflyDir.getAbsolutePath()); // jtextField
+                        JOptionPane.showMessageDialog(frame, "Caminho selecionado: " + wildflyDir.getAbsolutePath(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "O caminho selecionado não é um Wildfly válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+
+                    }
+
+                }
+
+            }
+
+            // Metodo para validar o caminho do Wildfly
         private boolean validateWildflyPath (File wildflyDir){
 
-            if (!wildflyDir.isDirectory()) return false;
+                if (!wildflyDir.isDirectory()) return false;
 
-            File binDir = new File(wildflyDir, "bin");
-            File standaloneBat = new File(wildflyDir, "standalone.bat");
-            File standaloneSh = new File(wildflyDir, "standalone.sh");
+                File binDir = new File(wildflyDir, "bin");
+                File standaloneBat = new File(wildflyDir, "standalone.bat");
+                File standaloneSh = new File(wildflyDir, "standalone.sh");
 
-            return binDir.isDirectory() && (standaloneBat.exists() || standaloneSh.exists());
-            // requisção simples que testa o wildflyDir se é um diretório e se contém o diretório bin
-            // Não é o ideal para validar o Wildfly, mas é um começo simples
+                return binDir.isDirectory() && (standaloneBat.exists() || standaloneSh.exists());
+                // requisção simples que testa o wildflyDir se é um diretório e se contém o diretório bin
+                // Não é o ideal para validar o Wildfly, mas é um começo simples
 
-        }
+            }
 
 
 }
