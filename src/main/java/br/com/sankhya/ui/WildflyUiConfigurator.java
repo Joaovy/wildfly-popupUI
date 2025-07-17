@@ -20,9 +20,9 @@ public class WildflyUiConfigurator {
     }
 
     private void configureActions(){
-
-        browseButton.addActionListener(this::actionSearchPath);
         // adicionar os listeners dos botões
+        browseButton.addActionListener(this::actionSearchPath);
+        cancelButton.addActionListener(this::actionCancel);
 
     }
 
@@ -37,6 +37,9 @@ public class WildflyUiConfigurator {
         configurator.initialize();
     }
 
+
+    // estilização da Janela WildFly configurator
+    // Java Swing - toda parte de estilização é feita aqui
     private void initialize(){
 
         frame = new JFrame("Configuração do Wildfly");
@@ -59,9 +62,7 @@ public class WildflyUiConfigurator {
         configureActions(); // Configura as ações dos botões
     }
 
-        // estilização da Janela WildFly configurator
-        // Java Swing - toda parte de estilização é feita aqui
-        private void addTexts () {
+    private void addTexts () {
             JLabel label1 = new JLabel("Não encontramos um Wildfly configurado!");
             JLabel label2 = new JLabel("<html><div style='width:320px;'>"
                     + "Este caminho é configurado via Sanklipse, mas aqui também nós conseguimos salvar "
@@ -87,7 +88,7 @@ public class WildflyUiConfigurator {
             mainPanel.add(Box.createVerticalStrut(5)); // Espaço após o texto até o campo
         }
 
-        private void addPathField () {
+    private void addPathField () {
             pathField = new JTextField();
             JPanel pathPanel = new JPanel(new BorderLayout());
             pathPanel.setMaximumSize(new Dimension(460, 30));
@@ -110,7 +111,7 @@ public class WildflyUiConfigurator {
             mainPanel.add(Box.createVerticalStrut(25));
         }
 
-        private void addButtons () {
+    private void addButtons () {
 
             cancelButton = createRoundedButton("Cancelar");
             saveButton = createRoundedButton("Salvar");
@@ -120,8 +121,8 @@ public class WildflyUiConfigurator {
             buttonPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
             buttonPanel.setAlignmentX(Component.TOP_ALIGNMENT);
 
-            JButton cancelButton = createRoundedButton("Cancelar");
-            JButton saveButton = createRoundedButton("Salvar");
+            //JButton cancelButton = createRoundedButton("Cancelar");
+            //JButton saveButton = createRoundedButton("Salvar");
 
             cancelButton.setPreferredSize(new Dimension(100, 30));
             saveButton.setPreferredSize(new Dimension(100, 30));
@@ -135,7 +136,7 @@ public class WildflyUiConfigurator {
             addHoverEffect(saveButton, new Color(189, 230, 189));   // Verde
         }
 
-        private JButton createRoundedButton (String text){
+    private JButton createRoundedButton (String text){
             JButton button = new JButton(text);
             button.setFocusPainted(false);
             button.setBackground(new Color(240, 240, 240));
@@ -143,7 +144,7 @@ public class WildflyUiConfigurator {
             return button;
         }
 
-        private void addHoverEffect (JButton button, Color hoverColor){
+    private void addHoverEffect (JButton button, Color hoverColor){
             Color originalColor = button.getBackground();
 
             button.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -159,7 +160,7 @@ public class WildflyUiConfigurator {
             });
         }
 
-        private void configurarFileChooserUI () {
+    private void configurarFileChooserUI () {
                 try {
                     // Aplica o tema visual do sistema operacional (Look and Feel)
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -185,16 +186,36 @@ public class WildflyUiConfigurator {
             }
 
 
-        // Ação do botão "Procurar..."
-        private void actionSearchPath (ActionEvent event){
 
-                configurarFileChooserUI(); // Configura o JFileChooser com o tema visual
+    // Ação do botão "Cancelar"
+    private void actionCancel (ActionEvent event){
 
-                JFileChooser selector = new JFileChooser(new File(System.getProperty("user.home")));
-                selector.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                selector.setDialogTitle("Escolha um diretório do Wildfly");
+        // Exibe uma caixa de diálogo de confirmação
+        int confirm = JOptionPane.showConfirmDialog(frame,
+                "Deseja cancelar a configuração? ( As alterações não serão salvas! )", "Confirmar",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
 
-                int result = selector.showOpenDialog(frame);
+        if(confirm == JOptionPane.YES_OPTION){
+            pathField.setText(""); // Limpa o campo de texto
+            frame.dispose(); // Fecha a janela
+
+        }
+
+
+    }
+
+    // Ação do botão "Procurar..."
+    private void actionSearchPath (ActionEvent event){
+
+        configurarFileChooserUI(); // Configura o JFileChooser com o tema visual
+
+        JFileChooser selector = new JFileChooser(new File(System.getProperty("user.home")));
+        selector.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        selector.setDialogTitle("Escolha um diretório do Wildfly");
+
+        int result = selector.showOpenDialog(frame);
 
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File wildflyDir = selector.getSelectedFile();
@@ -211,22 +232,22 @@ public class WildflyUiConfigurator {
 
             }
 
-            // Metodo para validar o caminho do Wildfly
-            private boolean validateWildflyPath(File wildflyDir) {
-                if (!wildflyDir.isDirectory()) return false;
+    // Metodo para validar o caminho do Wildfly
+    private boolean validateWildflyPath(File wildflyDir) {
+        if (!wildflyDir.isDirectory()) return false;
 
-                File binDir = new File(wildflyDir, "bin");
-                File jbossModulesJar = new File(wildflyDir, "jboss-modules.jar");
+        File binDir = new File(wildflyDir, "bin");
+        File jbossModulesJar = new File(wildflyDir, "jboss-modules.jar");
 
-                System.out.println("Verificando: " + wildflyDir.getAbsolutePath());
-                System.out.println("Contém bin/? " + binDir.isDirectory());
-                System.out.println("Existe jboss-modules.jar? " + jbossModulesJar.exists());
+        System.out.println("Verificando: " + wildflyDir.getAbsolutePath());
+        System.out.println("Contém bin/? " + binDir.isDirectory());
+        System.out.println("Existe jboss-modules.jar? " + jbossModulesJar.exists());
 
-                return binDir.isDirectory() && jbossModulesJar.exists();
-                // requisição simples que testa o wildflyDir se é um diretório e se contém o diretório bin
-                // Não é o ideal para validar o Wildfly, mas é um começo simples
+        return binDir.isDirectory() && jbossModulesJar.exists();
+        // requisição simples que testa o wildflyDir se é um diretório e se contém o diretório bin
+        // Não é o ideal para validar o Wildfly, mas é um começo simples
 
-            }
+    }
 
 
 }
