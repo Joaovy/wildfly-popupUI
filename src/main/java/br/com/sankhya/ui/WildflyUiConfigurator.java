@@ -212,16 +212,18 @@ public class WildflyUiConfigurator {
             }
 
             // Metodo para validar o caminho do Wildfly
-        private boolean validateWildflyPath (File wildflyDir){
-
+            private boolean validateWildflyPath(File wildflyDir) {
                 if (!wildflyDir.isDirectory()) return false;
 
                 File binDir = new File(wildflyDir, "bin");
-                File standaloneBat = new File(wildflyDir, "standalone.bat");
-                File standaloneSh = new File(wildflyDir, "standalone.sh");
+                File jbossModulesJar = new File(wildflyDir, "jboss-modules.jar");
 
-                return binDir.isDirectory() && (standaloneBat.exists() || standaloneSh.exists());
-                // requisção simples que testa o wildflyDir se é um diretório e se contém o diretório bin
+                System.out.println("Verificando: " + wildflyDir.getAbsolutePath());
+                System.out.println("Contém bin/? " + binDir.isDirectory());
+                System.out.println("Existe jboss-modules.jar? " + jbossModulesJar.exists());
+
+                return binDir.isDirectory() && jbossModulesJar.exists();
+                // requisição simples que testa o wildflyDir se é um diretório e se contém o diretório bin
                 // Não é o ideal para validar o Wildfly, mas é um começo simples
 
             }
